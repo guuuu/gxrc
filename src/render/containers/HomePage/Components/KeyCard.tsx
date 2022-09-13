@@ -3,17 +3,20 @@ import { SelectedRunesState } from "./States/SelectedRunesState";
 import favorite from "../../../../../assets/favorite.svg"
 import favoriteFilled from "../../../../../assets/favoriteFilled.svg"
 import { useEffect, useState } from "react";
+import { SelectedKeyCardState } from "./States/SelectedKeyCardState";
 
 interface Props{
     "text": string,
     "runes"?: IRuneInjection,
-    "select": boolean
+    "select": boolean,
+    "uuid": string,
 }
 
 const KeyCard = (props: Props) => {
     const [runes, setRunes] = useRecoilState(SelectedRunesState);
     const [favSrc, setFavSrc] = useState(favorite);
     const [once, setOnce] = useState(false);
+    const [selectedKeyCard, setSelectedKeyCard] = useRecoilState(SelectedKeyCardState);
 
     // useEffect(() => {
     //     setRunes({
@@ -35,7 +38,7 @@ const KeyCard = (props: Props) => {
 
     return(
         <>
-            <div className="rotate-90 glass bt-card min-w-36 w-36 min-h-24 h-24 flex justify-center items-center hover:cursor-pointer text-white my-12 scale-100 hover:scale-105 ease-in duration-75 relative z-10" onClick={(e) => {
+            <div data-uuid={props.uuid} className="rotate-90 glass bt-card min-w-36 w-36 min-h-24 h-24 flex justify-center items-center hover:cursor-pointer text-white my-12 scale-100 hover:scale-105 ease-in duration-75 relative z-10" onClick={(e) => {
                 // const champID = parseInt(e.currentTarget.getAttribute("championid")!)
                 setRunes({
                     "primary": props.runes!.primaryStyleId,
@@ -50,6 +53,8 @@ const KeyCard = (props: Props) => {
                     "r7": props.runes!.selectedPerkIds[7],
                     "r8": props.runes!.selectedPerkIds[8],
                 })
+
+                setSelectedKeyCard(props.uuid)
             }}>
                 <div className={`absolute top-2 left-2 w-4 h-4 bg-bt1 rounded-full z-20 ${props.select ? 'visible' : 'hidden'}`} />
                 <div className={`absolute top-1 right-1 w-6 h-6 z-20`}>

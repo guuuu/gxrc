@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRecoilState } from "recoil";
 import AddCustomRunes from "./AddCustomRunes";
 import Champion from "./Champion";
-import Loading from "./Loading";
 import Searchbar from "./Sidebar/Searchbar";
 import {MyChampionsState} from "./States/MyChampionsState"
 

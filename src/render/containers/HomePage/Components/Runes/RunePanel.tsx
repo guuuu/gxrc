@@ -5,7 +5,7 @@ import { SelectedRunesState } from "../States/SelectedRunesState"
 
 interface Props{
     "runes": IAPIRunes[]
-    "second_panel": boolean;
+    "second_panel": boolean
 }
 
 const RunePanel = (props: Props) => {
@@ -69,13 +69,13 @@ const RunePanel = (props: Props) => {
                         props.runes.map((item, key) => {
                             if(item.main === runes.primary && !props.second_panel){
                                 return ( item.perks.map((i, k) => {
-                                    return ( <SubRow id={i.primary_id} rune={i} second_panel={props.second_panel} key={k} row={k}/> )
+                                    return ( <SubRow id={i.primary_id} rune={i} second_panel={props.second_panel} key={k} row={k} /> )
                                 }) )
                             }
                             else if(item.main === runes.sub_primary && props.second_panel){
                                 return ( item.perks.map((i, k) => {
                                     //console.log(i.perks);
-                                    return ( <SubRow id={i.primary_id} rune={i} second_panel={props.second_panel} key={k} row={k}/> )
+                                    return ( <SubRow id={i.primary_id} rune={i} second_panel={props.second_panel} key={k} row={k} /> )
                                 }) )
                             }
                         })

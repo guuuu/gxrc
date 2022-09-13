@@ -11,6 +11,7 @@ module.exports = {
 			'main_bg': '#212121',
 			'sidebar_bg': '#2e2e2e',
 			'sidebar_bt_bg': "#282828",
+      'runesModal_bg': "#2e2e2e",
       'bt1': "#bf84fb",
       'bt2': "#ff0000",
       'bt3': "#00f0ff",

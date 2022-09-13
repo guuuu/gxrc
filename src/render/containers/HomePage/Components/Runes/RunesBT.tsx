@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { SelectedChampState } from "../States/SelectedChampState";
+import { SelectedKeyCardState } from "../States/SelectedKeyCardState";
 import { SelectedRunesState } from "../States/SelectedRunesState";
 import { SnackbarState } from "../States/SnackBarState";
 
@@ -15,6 +16,7 @@ const RunesBT = (props: Props) => {
     const [runes, setRunes] = useRecoilState(SelectedRunesState)
     const [champ, setChamps] = useRecoilState(SelectedChampState);
     const [snack, setSnack] = useRecoilState(SnackbarState);
+    const [selectedKeyCard, setSelectedKeyCard] = useRecoilState(SelectedKeyCardState);
 
     const injectRunes = (): void => {
         const to_inject: IRuneInjection = {
@@ -50,7 +52,14 @@ const RunesBT = (props: Props) => {
     }
 
     const deleteRunes = (): void => {
-        alert("Runes deleted");
+        if(window.electron.deleteChampion(selectedKeyCard)){
+            setSnack({
+                "status": true,
+                "severity": "success",
+                "content": "Rune deleted successfully"
+            })
+        }
+
     }
 
     if(props.action === true){

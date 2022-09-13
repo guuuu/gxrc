@@ -55,7 +55,7 @@ const RuneRow = (props: Props) => {
                             default: break;
                         }
                     }
-
+                    console.log(runes);
                     setlastRow(props.row);
                 }} >
                 <img src={props.img} alt={`${props.id}`} className={`rounded-full ${!props.keystone && !props.main ? 'w-3/4 h-3/4' : 'w-auto h-auto'}`} />

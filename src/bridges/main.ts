@@ -168,6 +168,15 @@ export const electronBridge = {
 			return true;
 		}
 		catch (error) { return false; }
+	},
+
+	deleteChampion: (uuid: string): boolean => {
+		try {
+			let customRunes: IChampionRunes[] = JSON.parse(localStorage.getItem("Saved") || "[]")
+			customRunes.splice(customRunes.findIndex(cr => cr.uuid === uuid), 1)
+			localStorage.setItem("Saved", JSON.stringify(customRunes))
+			return true;
+		} catch (error) { return false }
 	}
 };
 

@@ -20,8 +20,8 @@ const RuneCards = (): JSX.Element => {
                     myChampions.map((champ, key) => {
                         //console.log(champ.champion.name,champ.champion.id === selectedChamp.cid,champ.champion.id , selectedChamp.cid);
                         if(champ.champion.id == selectedChamp.cid){
-                            console.log(key);
-                            return( <KeyCard text={champ.name} runes={champ.runes} key={key} select={key === 0 ? true : false}/> )
+                            //console.log(key);
+                            return( <KeyCard text={champ.name} runes={champ.runes} key={key} select={key === 0 ? true : false} uuid={champ.uuid}/> )
                         }
                     })
                 }

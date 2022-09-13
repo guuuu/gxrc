@@ -7,7 +7,6 @@ import { useEffect, useState } from "react"
 import Snackbar from "@mui/material/Snackbar/Snackbar"
 import Alert from "@mui/material/Alert/Alert"
 import { SnackbarState } from "./States/SnackBarState"
-import { MyChampionsState } from "./States/MyChampionsState"
 import RuneCards from "./RuneCards"
 
 const MainContent = () => {
@@ -38,8 +37,8 @@ const MainContent = () => {
                 <p className="capitalize text-white text-3xl text-center absolute w-full h-auto top-3">{SelectedChampion.name}</p>
 
                 <div className="w-full h-96 mt-5 relative">
-                    <div className="absolute w-full h-full z-10">
-                        <RunesLayout runes={runes}/>
+                    <div className="absolute w-full h-full z-10 pointer-events-none">
+                        <RunesLayout runes={runes} />
                     </div>
                 </div>
 

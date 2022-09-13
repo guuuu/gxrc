@@ -1,5 +1,7 @@
 import { useRecoilState } from "recoil";
+import { MyChampionsState } from "./States/MyChampionsState";
 import {SelectedChampState} from "./States/SelectedChampState";
+import { SelectedKeyCardState } from "./States/SelectedKeyCardState";
 
 interface Props{
 	"name": string,
@@ -10,6 +12,8 @@ interface Props{
 
 const Champion = (props: Props) => {
     const [SelectedChampion, SetSelectedChampion] = useRecoilState<ISelectedChampion>(SelectedChampState);
+    const [selectedKeyCardState, setSelectedKeyCardState] = useRecoilState(SelectedKeyCardState);
+    const [myChampions, setMyChampions] = useRecoilState(MyChampionsState);
 
     return(
         <>
@@ -22,6 +26,14 @@ const Champion = (props: Props) => {
                     isDefault: isDefault ? JSON.parse(isDefault) : null,
                     name: props.name
                 })
+
+                // if(!props.isDefault){
+                //     myChampions.forEach((champion) => {
+                //         if(champion.champion.id === props.id){
+                //             setSelectedKeyCardState(champion.uuid)
+                //         }
+                //     })
+                // }
             }}>
                 <div className="w-1/6 h-full ml-2 flex items-center justify-center">
                     <div className="w-12 h-12 rounded-full relative">
