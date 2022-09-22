@@ -15,7 +15,13 @@ module.exports = {
       'bt1': "#bf84fb",
       'bt2': "#ff0000",
       'bt3': "#00f0ff",
+      'save': "#26c598",
+      'export': "#94e1db",
+      'import': "#a94464"
 		}),
+    grayscale: {
+      70: '70%',
+    },
     fontSize: {
       'xs': '.75rem',
       'sm': '.875rem',

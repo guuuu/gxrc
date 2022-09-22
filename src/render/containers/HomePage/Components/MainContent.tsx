@@ -8,11 +8,13 @@ import Snackbar from "@mui/material/Snackbar/Snackbar"
 import Alert from "@mui/material/Alert/Alert"
 import { SnackbarState } from "./States/SnackBarState"
 import RuneCards from "./RuneCards"
+import { SelectedKeyCardState } from "./States/SelectedKeyCardState"
 
 const MainContent = () => {
     const [SelectedChampion, SetSelectedChampion] = useRecoilState<ISelectedChampion>(SelectedChampState);
     const [runes, setRunes] = useState<IAPIRunes[]>([])
     const [openSnack, setOpenSnack] = useRecoilState(SnackbarState);
+    const [selectedKeyCard, setSelectedKeyCard] = useRecoilState(SelectedKeyCardState)
 
     useEffect(() => {
         window.electron.getRunes()
@@ -38,14 +40,28 @@ const MainContent = () => {
 
                 <div className="w-full h-96 mt-5 relative">
                     <div className="absolute w-full h-full z-10 pointer-events-none">
-                        <RunesLayout runes={runes} />
+                        {
+                            selectedKeyCard !== ""
+                            ? <RunesLayout runes={runes} />
+                            :
+                            <div className="w-full h-full flex flex-wrap justify-center items-center text-center text-white text-2xl">
+                                It's so.... empty 😞
+                            </div>
+                        }
                     </div>
                 </div>
 
                 <div className="w-full h-16 my-3 absolute bottom-0 flex flex-row">
-                    <RunesBt text="Import" action={true} isDefault={ SelectedChampion.isDefault ? SelectedChampion.isDefault : false }/>
-                    <RunesBt text="Update" action={false} isDefault={ SelectedChampion.isDefault ? SelectedChampion.isDefault : false }/>
-                    <RunesBt text="Delete" action={null} isDefault={ SelectedChampion.isDefault ? SelectedChampion.isDefault : false }/>
+                    {
+                        selectedKeyCard !== ""
+                        ? <>
+                            <RunesBt text="Import" action={true} isDefault={ SelectedChampion.isDefault ? SelectedChampion.isDefault : false }  />
+                            {/* <RunesBt text="Update" action={false} isDefault={ SelectedChampion.isDefault ? SelectedChampion.isDefault : false }/> */}
+                            <RunesBt text="Delete" action={null} isDefault={ SelectedChampion.isDefault ? SelectedChampion.isDefault : false }/  >
+                        </>
+                        : null
+
+                    }
                 </div>
             </main>
         </>

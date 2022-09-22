@@ -31,7 +31,16 @@ const RunePanel = (props: Props) => {
                                     ? 'rune_disabled'
                                     : ''
                             }`} key={key}>
-                                <RuneRow id={item.main} img={`${img_prefix}${item.main_icon}`} main={true} key={key} keystone={false} second_panel={props.second_panel} row={-1} />
+                                <RuneRow id={item.main} img={`${img_prefix}${item.main_icon}`} main={true} key={key} keystone={false} second_panel={props.second_panel} row={-1} active={                                !props.second_panel
+                                ?
+                                    item.main !== runes.primary
+                                    ? false
+                                    : true
+                                :
+                                    item.main !== runes.sub_primary
+                                    ? false
+                                    : true
+                                } />
                             </div>
                         )
                     }
@@ -51,7 +60,9 @@ const RunePanel = (props: Props) => {
                                         <div key={k} className={`${
                                              runes.keystone !== i.id ? 'rune_disabled' : ''
                                         }`}>
-                                            <RuneRow id={i.id} img={`${img_prefix}${i.icon}`} main={false} key={k} keystone={true} second_panel={props.second_panel} row={-1} />
+                                            <RuneRow id={i.id} img={`${img_prefix}${i.icon}`} main={false} key={k} keystone={true} second_panel={props.second_panel} row={-1} active={
+                                                runes.keystone !== i.id ? false : true
+                                            } />
                                         </div>
                                     )
                                 })

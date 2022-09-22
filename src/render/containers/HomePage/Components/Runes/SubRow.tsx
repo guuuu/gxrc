@@ -27,10 +27,13 @@ const SubRow = (props: Props): JSX.Element => {
                                 // console.log(perk.id, runes.r4, perk.id === runes.r4, "|", perk.id, runes.r5, perk.id === runes.r5);
                                 return(
                                     <div key={perk_key} className={`${
-                                        perk.id === runes.r4 ? 'yo' :
-                                        perk.id === runes.r5 ? 'oy' : 'rune_disabled'
+                                        perk.id === runes.r4 ? '' :
+                                        perk.id === runes.r5 ? '' : 'rune_disabled'
                                     }`}>
-                                        <RuneRow id={perk.id} img={`${img_prefix}${perk.icon}`} main={false} keystone={false} second_panel={props.second_panel} row={props.row} />
+                                        <RuneRow id={perk.id} img={`${img_prefix}${perk.icon}`} main={false} keystone={false} second_panel={props.second_panel} row={props.row} active={
+                                            perk.id === runes.r4 ? true :
+                                            perk.id === runes.r5 ? true : false
+                                        }/>
                                     </div>
                                 )
                             }
@@ -46,7 +49,11 @@ const SubRow = (props: Props): JSX.Element => {
                                     perk.id === runes.r2 ? '' :
                                     perk.id === runes.r3 ? '' : 'rune_disabled'
                                 }`}>
-                                    <RuneRow id={perk.id} img={`${img_prefix}${perk.icon}`} main={false} keystone={false} second_panel={props.second_panel} row={props.row} />
+                                    <RuneRow id={perk.id} img={`${img_prefix}${perk.icon}`} main={false} keystone={false} second_panel={props.second_panel} row={props.row} active={
+                                        perk.id === runes.r1 ? true :
+                                        perk.id === runes.r2 ? true :
+                                        perk.id === runes.r3 ? true : false
+                                    }/>
                                 </div>
                             )
 

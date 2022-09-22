@@ -7,10 +7,11 @@ import { SelectedChampState } from './States/SelectedChampState'
 import { SelectedRunesState } from './States/SelectedRunesState'
 import { SnackbarState } from './States/SnackBarState'
 import {MyChampionsState} from "./States/MyChampionsState"
+import LaneListbox from './LaneListbox'
 
 
 interface Props {
-    "f": Function,
+    "f": (a: boolean | IChampionRunes) => void,
     "isOpen": boolean
 }
 
@@ -23,6 +24,7 @@ const RunesModal = (props: Props) => {
     const [open, setOpen] = useState(false);
     const [buildName, setBuildName] = useState("")
     const [myChampions, setMyChampions] = useRecoilState<IChampionRunes[]>(MyChampionsState);
+    const [lane, setLane] = useState("top");
 
     useEffect(() => {
         window.electron.getRunes()
@@ -37,7 +39,7 @@ const RunesModal = (props: Props) => {
     }, [])
 
     const addChampion = (cRunes: IChampionRunes) => {
-        console.log("add", runes);
+        //console.log("add", runes);
         if(window.electron.addChampion(cRunes)){
             setOpen(false);
             setSnack({
@@ -57,6 +59,7 @@ const RunesModal = (props: Props) => {
 
     function closeModal() { props.f(false) }
 
+    const sl = (lane: string) => { setLane(lane); }
 
     return (
         <>
@@ -66,33 +69,41 @@ const RunesModal = (props: Props) => {
                         <div className="fixed inset-0 bg-black bg-opacity-25" />
                     </Transition.Child>
 
-                    <div className="h-full fixed inset-0 overflow-y-auto flex items-center justify-center">
-                        <div className="w-full flex min-h-full items-center justify-center p-4 text-center">
+                    <div className="fixed h-full inset-0 overflow-y-auto flex items-center justify-center">
+                        <div className="w-full h-full flex items-center justify-center p-4 text-center">
                             <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
-                                <Dialog.Panel className="w-full max-w-4xl transform overflow-hidden rounded-2xl bg-runesModal_bg p-6 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="w-full max-w-7xl h-5/6 transform overflow-hidden rounded-2xl bg-runesModal_bg p-6 text-left align-middle shadow-xl transition-all">
                                     <Dialog.Title as="h1" className="text-center text-2xl font-medium leading-6 text-white">
                                     Create new champion runes
                                     </Dialog.Title>
 
-                                    <div className="mt-2">
-                                        <div className="w-full h-full flex flex-col justify-center items-center ">
-                                            <div className="w-full h-16 flex flex-col items-center justify-center text-white absolute top-16 z-50">
-                                                <div className="w-3/4 h-full flex flex-row items-center justify-center">
-                                                    <div className="text-xl text-white pr-6 pt-1">Champion: </div>
-                                                    <AutoFillCombo champions={champions} />
+                                    <div className="w-full h-5/6 flex flex-row items-center justify-center">
+                                            <div className='w-1/5 h-full flex flex-col items-center justify-center p-3'>
+                                                <div className='w-full flex flex-col items-center justify-center mt-4'>
+                                                    <span className='w-full h-10 text-slate-100 text-xl text-left'>Champion:</span>
+                                                    <div className='w-full h-10'>
+                                                        <AutoFillCombo champions={champions} />
+                                                    </div>
                                                 </div>
-                                                <div className="my-3 w-3/6 h-8 flex flex-row justify-center items-center">
-                                                    <div className="text-xl text-white pr-6 pt-1 w-1/5">Build name: </div>
-                                                    <input type="text" className="w-4/5 text-white pl-3 text-left h-full focus:outline-none bg-transparent border-b-purple-400" placeholder="ex.: Full AP olaf..." onChange={(e) => {
-                                                        setBuildName(e.target.value)
-                                                        }} />
+                                                <div className='w-full flex flex-col items-center justify-center mt-4'>
+                                                    <span className='w-full h-10 text-slate-100 text-xl text-left'>Runes name:</span>
+                                                    <input type="text" className="w-full h-10 text-white pl-3 text-left focus:outline-none bg-sidebar_bt_bg" placeholder="ex.: Full AP olaf..." onChange={(e) => { setBuildName(e.target.value) }} />
+                                                <div className='w-full flex flex-col items-center justify-center mt-4'>
+                                                    <span className='w-full h-10 text-slate-100 text-xl text-left'>Lane:</span>
+                                                    <div className='w-full h-8'>
+                                                        <LaneListbox f={sl}/>
+                                                    </div>
+                                                </div>
                                                 </div>
                                             </div>
-                                            <div className="mt-16">
+
+                                            <div className='w-4/5 h-full'>
                                                 <RunesLayout runes={apiRunes} />
                                             </div>
-                                            <div>
-                                                <button onClick={() => {
+                                    </div>
+
+                                    <div className='h-1/6 w-full flex flex-row items-center justify-center'>
+                                        <button className='w-2/6 h-12 rounded-md border-none text-white text-2xl text-center focus:outline-none bg-save scale-100 hover:scale-105 ease-in duration-75 cursor-pointer select-none' onClick={() => {
                                                     const selectedChampIdAux = document.querySelector("[data-customchampid]")?.attributes.getNamedItem("data-customchampid")?.nodeValue || "-1"
                                                     const selectedChampId = parseInt(selectedChampIdAux)
                                                     if (selectedChampId === -1) {
@@ -140,14 +151,14 @@ const RunesModal = (props: Props) => {
                                                                 "selectedPerkIds": [runes.keystone, runes.r1, runes.r2, runes.r3, runes.r4, runes.r5, runes.r6, runes.r7, runes.r8],
                                                                 "current": true,
                                                             }
-                                                            console.log("inject", to_inject);
 
                                                             const aux: IChampionRunes = {
                                                                 "champion": champions[i],
                                                                 "default": false,
                                                                 "name": buildName,
                                                                 "runes": to_inject,
-                                                                "uuid": window.electron.uuid()
+                                                                "uuid": window.electron.uuid(),
+                                                                "lane": lane
                                                             }
 
                                                             props.f(aux);
@@ -161,9 +172,7 @@ const RunesModal = (props: Props) => {
                                                             break;
                                                         }
                                                     }
-                                                }}>Save</button>
-                                            </div>
-                                        </div>
+                                                }}> Save </button>
                                     </div>
                                 </Dialog.Panel>
                             </Transition.Child>

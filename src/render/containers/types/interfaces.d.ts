@@ -79,10 +79,16 @@ interface IChampionRunes{
 	"name": string,
 	"runes": IRuneInjection,
 	"uuid": string
+	"lane"?: string
 }
 
 interface IKeyCard{
 	"name": string,
 	"id": number,
 	"runes": IRuneInjection
+}
+
+interface IFavoriteCard {
+	"id": number,
+	"uuid": string
 }

@@ -1,7 +1,7 @@
 import search_icon from "../../../../../../assets/search.png"
 
 interface Props {
-    "updateFunc": Function
+    "updateFunc": (s: string) => void
 }
 
 const Searchbar = (props: Props) => {
@@ -14,7 +14,7 @@ const Searchbar = (props: Props) => {
                 </div>
                 <div className="w-10/12 h-full flex justify-center items-center">
                     <input type="text" name="searchbar" className="w-full h-9 bg-transparent border-none focus:outline-none tracking-wider" placeholder="Search for a champion..." onKeyUp={(e) => {
-                        const val = (document.querySelector("input[name='searchbar']") as HTMLInputElement).value
+                        const val: string = (document.querySelector("input[name='searchbar']") as HTMLInputElement).value
                         props.updateFunc(val);
                     }}/>
                 </div>

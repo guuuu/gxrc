@@ -2,7 +2,6 @@ import { app, BrowserWindow } from "electron";
 import isDev from "electron-is-dev";
 import Store from "electron-persist-secure/lib/store";
 import "./app/ipc/main";
-import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 if (require("electron-squirrel-startup")) {
@@ -17,10 +16,10 @@ const createStores = (): void => {
 
 const createWindow = (): void => {
 	const mainWindow = new BrowserWindow({
-		height: 720,
-		width: 1280,
-		webPreferences: {
-			contextIsolation: true,
+				height: 720,
+				width: 1280,
+				webPreferences: {
+					contextIsolation: true,
 			nodeIntegration: false,
 			preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
 		},
@@ -28,20 +27,14 @@ const createWindow = (): void => {
 		resizable: false,
 	});
 
-	mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-	installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
-		console.log(`Added Extension:  ${name}`);
-	})
-	.catch((err) => {
-		console.log('An error occurred: ', err)
-	});
+	mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
 	if (isDev) { mainWindow.webContents.openDevTools(); }
 };
 
-process.on('uncaughtException', (err: any) => {
-	console.error("\n\n\n\nMAIN PROCESS\n\n\n\n" + err + "\n\n\n\n");
+process.on('uncaughtException', (err: Error) => {
+	console.error(err.message);
 })
 
 app.on("ready", () => {

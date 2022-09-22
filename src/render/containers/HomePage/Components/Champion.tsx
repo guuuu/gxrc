@@ -1,7 +1,9 @@
 import { useRecoilState } from "recoil";
+import { DefaultChampionRunes } from "./States/DefaultChampions";
 import { MyChampionsState } from "./States/MyChampionsState";
 import {SelectedChampState} from "./States/SelectedChampState";
 import { SelectedKeyCardState } from "./States/SelectedKeyCardState";
+import { SelectedRunesState } from "./States/SelectedRunesState";
 
 interface Props{
 	"name": string,
@@ -14,6 +16,8 @@ const Champion = (props: Props) => {
     const [SelectedChampion, SetSelectedChampion] = useRecoilState<ISelectedChampion>(SelectedChampState);
     const [selectedKeyCardState, setSelectedKeyCardState] = useRecoilState(SelectedKeyCardState);
     const [myChampions, setMyChampions] = useRecoilState(MyChampionsState);
+    const [runes, setRunes] = useRecoilState(SelectedRunesState);
+    const [defaultChampionRunes, setDefaultChampionRunes] = useRecoilState<IChampionRunes[]>(DefaultChampionRunes);
 
     return(
         <>
@@ -23,17 +27,52 @@ const Champion = (props: Props) => {
 
                 SetSelectedChampion({
                     cid: parseInt(id ? id : "-1"),
-                    isDefault: isDefault ? JSON.parse(isDefault) : null,
+                    isDefault: isDefault ? JSON.parse(isDefault || "false") : null,
                     name: props.name
                 })
 
-                // if(!props.isDefault){
-                //     myChampions.forEach((champion) => {
-                //         if(champion.champion.id === props.id){
-                //             setSelectedKeyCardState(champion.uuid)
-                //         }
-                //     })
-                // }
+                if(!props.isDefault){
+                    myChampions.forEach((champion) => {
+                        if(champion.champion.id === props.id){
+                            setRunes({
+                                "primary": champion.runes.primaryStyleId,
+                                "sub_primary": champion.runes.subStyleId,
+                                "keystone": champion.runes.selectedPerkIds[0],
+                                "r1": champion.runes.selectedPerkIds[1],
+                                "r2": champion.runes.selectedPerkIds[2],
+                                "r3": champion.runes.selectedPerkIds[3],
+                                "r4": champion.runes.selectedPerkIds[4],
+                                "r5": champion.runes.selectedPerkIds[5],
+                                "r6": champion.runes.selectedPerkIds[6],
+                                "r7": champion.runes.selectedPerkIds[7],
+                                "r8": champion.runes.selectedPerkIds[8],
+                            })
+
+                            setSelectedKeyCardState(champion.uuid);
+                        }
+                    })
+                }
+                else{
+                    defaultChampionRunes.forEach((champion) => {
+                        if(champion.champion.id === props.id){
+                            setRunes({
+                                "primary": champion.runes.primaryStyleId,
+                                "sub_primary": champion.runes.subStyleId,
+                                "keystone": champion.runes.selectedPerkIds[0],
+                                "r1": champion.runes.selectedPerkIds[1],
+                                "r2": champion.runes.selectedPerkIds[2],
+                                "r3": champion.runes.selectedPerkIds[3],
+                                "r4": champion.runes.selectedPerkIds[4],
+                                "r5": champion.runes.selectedPerkIds[5],
+                                "r6": champion.runes.selectedPerkIds[6],
+                                "r7": champion.runes.selectedPerkIds[7],
+                                "r8": champion.runes.selectedPerkIds[8],
+                            })
+
+                            setSelectedKeyCardState(champion.uuid);
+                        }
+                    })
+                }
             }}>
                 <div className="w-1/6 h-full ml-2 flex items-center justify-center">
                     <div className="w-12 h-12 rounded-full relative">
