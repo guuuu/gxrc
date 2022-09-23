@@ -1,18 +1,18 @@
 import { useRecoilState } from "recoil";
 import { SelectedRunesState } from "./States/SelectedRunesState";
-// import favorite_img from "../../../../../assets/favorite.svg"
-// import favoriteFilled_img from "../../../../../assets/favoriteFilled.svg"
+// import favorite_img from "@assets/favorite.svg"
+// import favoriteFilled_img from "@assets/favoriteFilled.svg"
 import { useState } from "react";
 import { SelectedKeyCardState } from "./States/SelectedKeyCardState";
 // import { MyChampionsState } from "./States/MyChampionsState";
 // import { SelectedFavoriteState } from "./States/SelectedFavoriteStyle";
 import { SelectedChampState } from "./States/SelectedChampState";
 
-import topIcon from "../../../../../assets/lanes/TOP.png"
-import middleIcon from "../../../../../assets/lanes/MIDDLE.png"
-import adcIcon from "../../../../../assets/lanes/ADC.png"
-import supportIcon from "../../../../../assets/lanes/SUPPORT.png"
-import jungleIcon from "../../../../../assets/lanes/JUNGLE.png"
+import topIcon from "@assets/lanes/TOP.png"
+import middleIcon from "@assets/lanes/MIDDLE.png"
+import adcIcon from "@assets/lanes/ADC.png"
+import supportIcon from "@assets/lanes/SUPPORT.png"
+import jungleIcon from "@assets/lanes/JUNGLE.png"
 
 interface Props{
     "text": string,

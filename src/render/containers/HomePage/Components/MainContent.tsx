@@ -1,5 +1,6 @@
 import RunesBt from "./Runes/RunesBT"
-import bg_texture from "../../../../../assets/poly.svg"
+//import bg_texture from "@assets/poly.svg"
+import bg_texture from "@assets/poly.svg"
 import { SelectedChampState } from "./States/SelectedChampState"
 import { useRecoilState } from "recoil"
 import RunesLayout from "./Runes/RunesLayout"

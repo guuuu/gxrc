@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import DefaultRunes from "../DefaultRunes";
 import MyRunes from "../MyRunes";
 import SidebarBTv2 from "./SidebarBTv2";
-import help_icon from "../../../../../../assets/help.svg"
-import info_icon from "../../../../../../assets/info.svg"
+import help_icon from "@assets/help.svg"
+import info_icon from "@assets/info.svg"
 import { useRecoilState } from "recoil";
 import { RuneTypeState } from "../States/RuneTypeState"
 

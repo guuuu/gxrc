@@ -1,4 +1,4 @@
-import search_icon from "../../../../../../assets/search.png"
+import search_icon from "@assets/search.png"
 
 interface Props {
     "updateFunc": (s: string) => void

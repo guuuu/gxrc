@@ -1,11 +1,11 @@
 import { useRecoilState } from "recoil"
 import { SelectedRunesState } from "../States/SelectedRunesState"
-import adaptiveforce from "../../../../../../assets/statmods/adaptiveforce.png"
-import armor from "../../../../../../assets/statmods/armor.png"
-import attackspeed from "../../../../../../assets/statmods/attackspeed.png"
-import cdrscaling from "../../../../../../assets/statmods/cdrscaling.png"
-import healthscaling from "../../../../../../assets/statmods/healthscaling.png"
-import magicres from "../../../../../../assets/statmods/magicres.png"
+import adaptiveforce from "@assets/statmods/adaptiveforce.png"
+import armor from "@assets/statmods/armor.png"
+import attackspeed from "@assets/statmods/attackspeed.png"
+import cdrscaling from "@assets/statmods/cdrscaling.png"
+import healthscaling from "@assets/statmods/healthscaling.png"
+import magicres from "@assets/statmods/magicres.png"
 
 const StatMods = (): JSX.Element => {
     const [runes, setRunes] = useRecoilState(SelectedRunesState)
