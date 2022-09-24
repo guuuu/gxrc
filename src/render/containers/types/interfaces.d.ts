@@ -17,7 +17,7 @@ interface IPerks{
 
 interface ISelectedChampion{
     cid: number,
-    isDefault: boolean | null
+    isDefault: boolean
 	name: string
 }
 

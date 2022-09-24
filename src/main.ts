@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { globalShortcut, app, BrowserWindow } from "electron";
 import isDev from "electron-is-dev";
 import Store from "electron-persist-secure/lib/store";
 import path from "path";
@@ -26,13 +26,13 @@ const createWindow = (): void => {
 		},
 		frame: false,
 		resizable: false,
-		//icon: path.join(__dirname, "")
+		icon: path.join(__dirname, "icon.ico")
 	});
 
 
 	mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-	if (isDev) { mainWindow.webContents.openDevTools(); }
+	if (isDev) { mainWindow.webContents.openDevTools(); localStorage.clear()}
 };
 
 process.on('uncaughtException', (err: Error) => {
@@ -40,7 +40,6 @@ process.on('uncaughtException', (err: Error) => {
 })
 
 app.on("ready", () => {
-
 	createStores();
 	createWindow();
 });
@@ -55,4 +54,20 @@ app.on("activate", () => {
 	if (BrowserWindow.getAllWindows().length === 0) {
 		createWindow();
 	}
+});
+
+app.on('browser-window-focus', () => {
+    globalShortcut.register("CommandOrControl+R", () => { console.log("Shortcut Disabled"); });
+    globalShortcut.register("F5", () => { console.log("Shortcut Disabled"); });
+	globalShortcut.register("CommandOrControl+Shift+R", () => { console.log("Shortcut Disabled"); });
+	globalShortcut.register("CommandOrControl+Shift+C", () => { console.log("Shortcut Disabled"); });
+	globalShortcut.register("CommandOrControl+Shift+I", () => { console.log("Shortcut Disabled"); });
+});
+
+app.on('browser-window-blur', () => {
+    globalShortcut.unregister("CommandOrControl+R");
+	globalShortcut.unregister("F5");
+	globalShortcut.unregister("CommandOrControl+Shift+R");
+	globalShortcut.unregister("CommandOrControl+Shift+C");
+	globalShortcut.unregister("CommandOrControl+Shift+I");
 });

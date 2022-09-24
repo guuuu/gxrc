@@ -25,8 +25,10 @@ const RunesBT = (props: Props) => {
     const [SelectedChampion, SetSelectedChampion] = useRecoilState<ISelectedChampion>(SelectedChampState);
 
     const injectRunes = (): void => {
+        const data: IChampionRunes[] = window.electron.getMyChampions();
+
         const to_inject: IRuneInjection = {
-            "name": props.isDefault ?  `GXRC - ${champ.name}` : `GXRC - ${champ.name} - ${props.buildName}`,
+            "name": props.isDefault ?  `GXRC - ${champ.name}` : `GXRC - ${champ.name} - ${data[data.findIndex(cr => cr.uuid === selectedKeyCard)].name}`,
             "primaryStyleId": runes.primary,
             "subStyleId": runes.sub_primary,
             "selectedPerkIds": [runes.keystone,runes.r1,runes.r2,runes.r3,runes.r4,runes.r5,runes.r6,runes.r7,runes.r8],
@@ -49,7 +51,7 @@ const RunesBT = (props: Props) => {
                 setSnack({
                     "status": true,
                     "severity": "error",
-                    "content": error?.reason
+                    "content": error.reason
                 })
             }
         })
@@ -148,7 +150,7 @@ const RunesBT = (props: Props) => {
     else if(props.action === null){
         if(!props.isDefault){
             return(
-                <button className={`w-3/6 h-5/6 glass flex items-center justify-center text-white text-xl mx-3 rounded-md scale-100 hover:scale-105 ease-in duration-75 ${selectedKeyCard === "" ? 'pointer-events-none' : !SelectedChampion.isDefault ? 'pointer-events-none' : 'pointer-events-auto'}`} onClick={() => { deleteRunes(); }}>
+                <button className={`w-3/6 h-5/6 glass flex items-center justify-center text-white text-xl mx-3 rounded-md scale-100 hover:scale-105 ease-in duration-75 ${selectedKeyCard === "" ? 'pointer-events-none' : ''}`} onClick={() => { deleteRunes(); }}>
                     {props.text}
                 </button>
             )

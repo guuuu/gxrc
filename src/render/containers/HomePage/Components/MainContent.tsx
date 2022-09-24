@@ -56,9 +56,9 @@ const MainContent = () => {
                     {
                         selectedKeyCard !== ""
                         ? <>
-                            <RunesBt text="Import" action={true} isDefault={ SelectedChampion.isDefault ? SelectedChampion.isDefault : false }  />
+                            <RunesBt text="Import" action={true} isDefault={ SelectedChampion.isDefault } />
                             {/* <RunesBt text="Update" action={false} isDefault={ SelectedChampion.isDefault ? SelectedChampion.isDefault : false }/> */}
-                            <RunesBt text="Delete" action={null} isDefault={ SelectedChampion.isDefault ? SelectedChampion.isDefault : false }/  >
+                            <RunesBt text="Delete" action={null} isDefault={ SelectedChampion.isDefault } />
                         </>
                         : null
 

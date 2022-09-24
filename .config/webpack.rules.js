@@ -1,4 +1,16 @@
+//const WebpackObfuscator = require('webpack-obfuscator');
 module.exports = [
+  // {
+  //   test: /\.js$/,
+  //   exclude: [],
+  //   enforce: 'post',
+  //   use: {
+  //       loader: WebpackObfuscator.loader,
+  //       options: {
+  //           rotateStringArray: true
+  //       }
+  //   }
+  // },
   // Native node modules
   {
     test: /\.node$/,

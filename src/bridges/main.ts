@@ -15,13 +15,41 @@ import monk from "monk";
 
 import fs from "fs"
 
-const cache = new nodeCache({ stdTTL: 3600, checkperiod: 600, deleteOnExpire:true})
+const cache = new nodeCache({ stdTTL: 43200, checkperiod: 43200, deleteOnExpire:true})
 
 export const electronBridge = {
+	getGameVersion: (): Promise<{v: string, c: boolean}> => {
+
+		return new Promise<{v: string, c: boolean}>((resolve) => {
+			const savedVersion: string = localStorage.getItem("savedVersion") || "" ;
+			const readFromCache: string | undefined = cache.get("savedVersion");
+
+			if(readFromCache){ resolve({v: readFromCache, c: false}) }
+			else{
+				localStorage.setItem("savedVersion", "");
+				axios.get("https://ddragon.leagueoflegends.com/api/versions.json")
+				.then((versions) => {
+					if(versions){
+						if(versions["data"].length > 0){
+							const version: string = versions["data"][0];
+							if(version !== savedVersion){
+								localStorage.setItem("savedVersion", version);
+								cache.set("savedVersion", version);
+								resolve({v: version, c: true})
+							}
+							resolve({v: version, c: false})
+						}
+					}
+				})
+			}
+		})
+	},
+
 	injectRunes: (body: IRune): Promise<IInjectionStatus> => {
 		return new Promise<IInjectionStatus>((resolve, reject) =>  {
 			authenticate()
 			.then((credentials: Credentials) => {
+				console.log("au");
 				createHttp1Request({method: "GET", url: "/lol-champ-select/v1/session"}, credentials)
 				.then((data: Http1Response) => {
 					if(data.status === 200){
@@ -32,17 +60,17 @@ export const electronBridge = {
 							.then(() => {
 								createHttp1Request({ "method": "POST", "url": "/lol-perks/v1/pages", "body": body }, credentials)
 								.then(() => { resolve({injected: true}) })
-								.catch((error: Error) => { reject({"reason": `${error.message}`.split(":")[1], "injected": false}) })
+								.catch((error: Error) => { reject({"reason": error.message, "injected": false}) })
 							})
-							.catch((error: Error) => { reject({"reason": `${error.message}`.split(":")[1], "injected": false}) })
+							.catch((error: Error) => { reject({"reason": error.message, "injected": false}) })
 						})
-						.catch((error: Error) => { reject({"reason": `${error.message}`.split(":")[1], "injected": false}) })
+						.catch((error: Error) => { reject({"reason": error.message, "injected": false}) })
 					}
 					else{ reject({ "reason": "User not on champ select.", "injected": false }) }
 				})
-				.catch((error: Error) => { reject({ "reason": `${error.message}`, "injected": false }) })
+				.catch((error: Error) => { reject({ "reason": error.message, "injected": false }) })
 			})
-			.catch((error: Error) => { reject({"reason": `${error.message}`.split(":")[1], "injected": false}) })
+			.catch((error: Error) => { reject({"reason": error.message, "injected": false}) })
 		})
 	},
 
@@ -50,30 +78,25 @@ export const electronBridge = {
 		const final: IChampion[] = [];
 
 		return new Promise<IChampion[]>((resolve) => {
-			const readFromCache: string | undefined = cache.get("champions");
-			if(readFromCache !== undefined){
-				resolve(JSON.parse(readFromCache || "[]"))
-			}
-			else{
-				axios.get("https://ddragon.leagueoflegends.com/api/versions.json")
-				.then((versions) => {
-					const game_version = versions["data"][0];
-					axios.get(`https://ddragon.leagueoflegends.com/cdn/${game_version}/data/en_US/champion.json`)
+			electronBridge.getGameVersion()
+			.then((version) => {
+				if(!version.c && localStorage.getItem("defaultChampions")){ resolve(JSON.parse(localStorage.getItem("defaultChampions") || "[]")) }
+				else{
+					axios.get(`https://ddragon.leagueoflegends.com/cdn/${version.v}/data/en_US/champion.json`)
 					.then((champions) => {
 						Object.keys(champions["data"]["data"]).forEach((champ) => {
 							final.push({
 								"name": champions["data"]["data"][champ]["id"],
 								"id": champions["data"]["data"][champ]["key"],
-								"image": `https://ddragon.leagueoflegends.com/cdn/${game_version}/img/champion/${champ}.png`
+								"image": `https://ddragon.leagueoflegends.com/cdn/${version.v}/img/champion/${champ}.png`
 							});
 						});
 
-						cache.set("champions", JSON.stringify(final))
-
+						localStorage.setItem("defaultChampions", JSON.stringify(final));
 						resolve(final)
 					})
-				})
-			}
+				}
+			})
 		})
 	},
 
@@ -83,15 +106,11 @@ export const electronBridge = {
 		const final: IAPIRunes[] = [];
 
 		return new Promise<IAPIRunes[]>((resolve) => {
-			const readFromCache: string | undefined = cache.get("runes");
-			if(readFromCache !== undefined){
-				resolve(JSON.parse(readFromCache))
-			}
-			else{
-				axios.get("https://ddragon.leagueoflegends.com/api/versions.json")
-				.then((versions) => {
-					const game_version = versions["data"][0];
-					axios.get(`https://ddragon.leagueoflegends.com/cdn/${game_version}/data/en_US/runesReforged.json`)
+			electronBridge.getGameVersion()
+			.then((version) => {
+				if(!version.c && localStorage.getItem("runes")){ resolve(JSON.parse(localStorage.getItem("runes") || "[]")) }
+				else{
+					axios.get(`https://ddragon.leagueoflegends.com/cdn/${version.v}/data/en_US/runesReforged.json`)
 					.then((runes) => {
 						runes.data.forEach((rune: any) => {
 							const main = rune.id;
@@ -145,11 +164,12 @@ export const electronBridge = {
 							return 0;
 						})
 
-						cache.set("runes", JSON.stringify(final));
+						localStorage.setItem("runes", JSON.stringify(final))
 						resolve(final)
 					})
-				})
-			}
+
+				}
+			})
 		})
 	},
 
@@ -201,11 +221,20 @@ export const electronBridge = {
 
 	getDefaultRunes: (): Promise<IChampionRunes[]> => {
 		return new Promise<IChampionRunes[]>((resolve) => {
-			const conn = monk(`mongodb+srv://gxrcSoftwareReader:${process.env.MONBOPWD}@cluster.afdz1ib.mongodb.net/gxrc?retryWrites=true&w=majority`);
-			const db = conn.get("runes")
-			db.find({})
-			.then((data) => { resolve(data[data.length - 1]["runes"]) })
-			.catch((error: Error) => { console.error(error); })
+			electronBridge.getGameVersion()
+			.then((version) => {
+				if(!version.c && localStorage.getItem("defaultRunes")){ resolve(JSON.parse(localStorage.getItem("defaultRunes") || "[]")) }
+				else{
+					const conn = monk(`mongodb+srv://gxrcSoftwareReader:${process.env.MONBOPWD}@cluster.afdz1ib.mongodb.net/gxrc?retryWrites=true&w=majority`);
+					const db = conn.get("runes")
+					db.find({})
+					.then((data) => {
+						localStorage.setItem("defaultRunes", JSON.stringify(data[data.length - 1]["runes"]))
+						resolve(data[data.length - 1]["runes"])
+					})
+					.catch((error: Error) => { console.error(error); })
+				}
+			})
 		})
 	},
 
