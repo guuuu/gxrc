@@ -52,6 +52,7 @@ The UI is extremly user friendly, and everything is pretty much self explantory,
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><a href="#disclaimer">Disclaimer</a></li>
   </ol>
 </details>
 
@@ -119,7 +120,7 @@ The UI is extremly user friendly, and everything is pretty much self explantory,
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-## Roadmap
+## Roadmap (future features)
 
 - [ ] Quick import (shift+click to import champion runes)
   - [ ] Favorite runes (for the tab my runes)
