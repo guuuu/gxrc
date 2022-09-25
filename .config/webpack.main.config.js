@@ -30,9 +30,9 @@ module.exports = {
         { from: path.join(__dirname, path.join("..", path.join("assets", path.join("package", path.join("icons", path.join("win", "icon.ico")))))), to: path.join("..", "main") }
       ]
     }),
-    // new WebpackObfuscator ({
-    //   rotateStringArray: true
-    // })    
+    new WebpackObfuscator ({
+      rotateStringArray: true
+    })
   ],
   //plugins: plugins,
 };

@@ -130,6 +130,8 @@ const MyRunes = () => {
                                                         "severity": "error",
                                                         "content": "Runes failed to import"
                                                     })
+
+                                                    setisLoading(false);
                                                 }
                                             })
                                         }

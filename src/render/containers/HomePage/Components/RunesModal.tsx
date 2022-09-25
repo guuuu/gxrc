@@ -144,6 +144,42 @@ const RunesModal = (props: Props) => {
                                                     }
                                                     for (let i = 0; i < champions.length; i++) {
                                                         if (parseInt(champions[i].id.toString()) === selectedChampId) {
+                                                            // apiRunes[apiRunes.findIndex(id => id.main === runes.primary)].perks.forEach((perk) => {
+                                                            //     let isPresent1: boolean = false;
+                                                            //     let isPresent2: boolean = false;
+                                                            //     let isPresent3: boolean = false;
+                                                            //     let isPresent4: boolean = false;
+                                                            //     perk.perks.forEach((subPerk) => { if(runes.keystone == subPerk.id){ isPresent1 = true } })
+                                                            //     perk.perks.forEach((subPerk) => { if(runes.r1 == subPerk.id){ isPresent2 = true } })
+                                                            //     perk.perks.forEach((subPerk) => { if(runes.r2 == subPerk.id){ isPresent3 = true } })
+                                                            //     perk.perks.forEach((subPerk) => { if(runes.r3 == subPerk.id){ isPresent4 = true } })
+
+                                                            //     if(!isPresent1 || !isPresent2 || !isPresent3 ||!isPresent4){
+                                                            //         setSnack({
+                                                            //             "status": true,
+                                                            //             "severity": "error",
+                                                            //             "content": "Invalid runes"
+                                                            //         });
+                                                            //         return
+                                                            //     }
+                                                            // })
+
+                                                            // apiRunes[apiRunes.findIndex(id => id.main === runes.sub_primary)].perks.forEach((perk) => {
+                                                            //     let isPresent1: boolean = false;
+                                                            //     let isPresent2: boolean = false;
+                                                            //     perk.perks.forEach((subPerk) => { if(runes.r4 == subPerk.id){ isPresent1 = true } })
+                                                            //     perk.perks.forEach((subPerk) => { if(runes.r5 == subPerk.id){ isPresent2 = true } })
+
+                                                            //     if(!isPresent1 || !isPresent2){
+                                                            //         setSnack({
+                                                            //             "status": true,
+                                                            //             "severity": "error",
+                                                            //             "content": "Invalid runes"
+                                                            //         });
+                                                            //         return
+                                                            //     }
+                                                            // })
+
                                                             const to_inject: IRuneInjection = {
                                                                 "name": `GXRC - ${buildName} - ${champions[i].name}`,
                                                                 "primaryStyleId": runes.primary,

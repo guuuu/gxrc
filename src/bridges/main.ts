@@ -200,6 +200,8 @@ export const electronBridge = {
 		} catch (error) { return false }
 	},
 
+	quitApp: (): void => { ipcRenderer.send("quit-app"); },
+
 	// addFavorite: (favorite: IFavoriteCard): boolean => {
 	// 	try {
 	// 		let favorites: IFavoriteCard[] = JSON.parse(localStorage.getItem("Favorites") || "[]")
