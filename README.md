@@ -27,6 +27,8 @@ The UI is extremly user friendly, and everything is pretty much self explantory,
     <a href="https://github.com/guuuu/gxrc/issues">Report Bug</a>
     ·
     <a href="https://github.com/guuuu/gxrc/issues">Request Feature</a>
+	.
+    <a href="https://github.com/guuuu/gxrc/releases/tag/v1.0.0">Download</a>
   </p>
 </div>
 
