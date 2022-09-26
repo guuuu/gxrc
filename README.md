@@ -177,7 +177,7 @@ gxRC isn't endorsed by Riot Games and doesn't reflect the views or opinions of R
 [issues-url]: https://github.com/guuuu/gxrc/issues
 
 [license-shield]: https://img.shields.io/github/license/guuuu/gxrc.svg?style=for-the-badge
-[license-url]: https://github.com/guuuu/gxrc/blob/master/LICENSE.txt
+[license-url]: https://github.com/guuuu/gxrc/blob/main/LICENSE
 
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
